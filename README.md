@@ -18,6 +18,8 @@
 
 ---
 
+DOWNLOAD LINK === https://github.com/anunaysrivastava04-coder/DSA-TRACKER/blob/main/DSA-Tracker-v2.1.1-extension.zip
+
 ## 🌟 Overview
 
 **DSA Tracker** (v2.1) is a Google Chrome extension (Manifest V3) built by **Anunay Srivastava**. It bridges competitive programming across **three platforms** — GeeksforGeeks, LeetCode and HackerRank — with a single personal GitHub portfolio.
