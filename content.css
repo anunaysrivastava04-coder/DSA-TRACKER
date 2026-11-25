@@ -1,0 +1,191 @@
+/* DSA Tracker - In-page UI Styles (GeeksforGeeks, LeetCode, HackerRank) - Yellow & Green theme */
+/* CREATED BY ANUNAY SRIVASTAVA */
+
+#dsatracker-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 999999;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  pointer-events: none;
+}
+
+#dsatracker-container * {
+  pointer-events: auto;
+  box-sizing: border-box;
+}
+
+/* Floating HUD Badge */
+.dsatracker-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #fffef5;
+  color: #14290f;
+  border: 1.5px solid #16a34a;
+  border-radius: 24px;
+  padding: 7px 15px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+  font-weight: 600;
+  transition: all 0.25s ease;
+  user-select: none;
+}
+
+.dsatracker-pill:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 28px -4px rgba(22, 163, 74, 0.28);
+}
+
+.dsatracker-pill-brand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1px 7px;
+  border-radius: 6px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  color: #facc15;
+  background: linear-gradient(180deg, #22c55e, #15803d);
+}
+
+.dsatracker-pill-platform {
+  color: #14532d;
+  font-weight: 700;
+  font-size: 11.5px;
+  padding: 2px 6px;
+  background: #fef9c3;
+  border-radius: 999px;
+  margin-left: 2px;
+}
+
+.dsatracker-pill-status {
+  color: #566650;
+  font-size: 12px;
+  font-weight: 600;
+  margin-left: 2px;
+}
+
+.dsatracker-pill-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #16a34a;
+  box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.25);
+}
+
+.dsatracker-pill-dot.syncing {
+  background-color: #facc15;
+  box-shadow: 0 0 0 2px rgba(250, 204, 21, 0.35);
+  animation: dsatracker-pulse 1s infinite alternate;
+}
+
+.dsatracker-pill-dot.error {
+  background-color: #ef4444;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
+}
+
+.dsatracker-pill-dot.paused {
+  background-color: #94a3b8;
+  box-shadow: 0 0 0 2px rgba(148, 163, 184, 0.2);
+}
+
+@keyframes dsatracker-pulse {
+  from { opacity: 0.5; transform: scale(0.85); }
+  to { opacity: 1; transform: scale(1.15); }
+}
+
+/* Toast Notification */
+.dsatracker-toast {
+  background: #052e16;
+  color: #f7fee7;
+  padding: 11px 16px;
+  border-radius: 12px;
+  border-left: 4px solid #facc15;
+  box-shadow: 0 12px 28px -4px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 360px;
+  animation: dsatracker-slide-in 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dsatracker-toast.error {
+  border-left-color: #ef4444;
+}
+
+.dsatracker-toast.success {
+  border-left-color: #22c55e;
+}
+
+.dsatracker-toast-msg {
+  font-size: 12.5px;
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+.dsatracker-toast-link {
+  color: #facc15;
+  text-decoration: underline;
+  font-weight: 700;
+  margin-left: 6px;
+}
+
+.dsatracker-toast-link:hover {
+  color: #fde68a;
+}
+
+@keyframes dsatracker-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Manual Action Button */
+.dsatracker-manual-btn {
+  background: #facc15;
+  color: #14532d;
+  border: none;
+  border-radius: 8px;
+  padding: 7px 14px;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 10px rgba(202, 138, 4, 0.35);
+  transition: all 0.2s ease;
+}
+
+.dsatracker-manual-btn:hover {
+  background: #eab308;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(202, 138, 4, 0.45);
+}
+
+/* Master switch OFF: hide manual button, grey out the HUD */
+.dsatracker-hidden {
+  display: none !important;
+}
+
+.dsatracker-pill.dsatracker-off {
+  border-color: #9ca3af;
+  background: #f3f4f6;
+}
+
+.dsatracker-pill.dsatracker-off .dsatracker-pill-brand {
+  background: #9ca3af;
+  color: #f3f4f6;
+}

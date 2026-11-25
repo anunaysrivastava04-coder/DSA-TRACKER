@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=360, initial-scale=1.0">
+  <title>DSA Tracker — Created by Anunay Srivastava</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <!-- Header -->
+    <header class="popup-header">
+      <div class="brand-row">
+        <div class="brand-logo-wrap">
+          <svg width="28" height="28" viewBox="0 0 512 512" fill="none" aria-label="DSA Tracker logo">
+            <defs>
+              <linearGradient id="dtLogoGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#4ade80"/>
+                <stop offset="1" stop-color="#15803d"/>
+              </linearGradient>
+            </defs>
+            <rect width="512" height="512" rx="112" fill="url(#dtLogoGrad)"/>
+            <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M165 140 65 256l100 116" stroke="#facc15" stroke-width="50"/>
+              <path d="M347 140l100 116-100 116" stroke="#facc15" stroke-width="50"/>
+              <path d="M205 268l42 42 63-98" stroke="#fef9c3" stroke-width="46"/>
+            </g>
+          </svg>
+          <h1 class="brand-title">
+            <span class="brand-gfg">DSA</span><span class="brand-hub">Tracker</span>
+            <span class="brand-badge">v2.1</span>
+          </h1>
+        </div>
+        <button id="themeToggleBtn" class="theme-toggle-btn" title="Toggle Dark/Light Mode">🌓</button>
+      </div>
+      <p class="brand-subtitle">Sync GeeksforGeeks, LeetCode &amp; HackerRank solutions to GitHub</p>
+      <div class="creator-pill">
+        <span>⚡ Created by</span>
+        <strong>Anunay Srivastava</strong>
+      </div>
+
+      <!-- Master ON / OFF switch for the whole extension -->
+      <div id="masterBar" class="master-bar">
+        <div class="master-left">
+          <span class="master-power" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2v9"/>
+              <path d="M18.4 6.6a9 9 0 1 1-12.8 0"/>
+            </svg>
+          </span>
+          <div>
+            <div class="master-title">DSA Tracker <span id="masterStateText" class="master-state">ON</span></div>
+            <div id="masterSubText" class="master-sub">Solutions sync to GitHub automatically</div>
+          </div>
+        </div>
+        <label class="switch switch-lg" title="Turn DSA Tracker ON / OFF">
+          <input type="checkbox" id="toggleMaster" checked aria-label="Turn DSA Tracker on or off">
+          <span class="switch-slider"></span>
+        </label>
+      </div>
+
+      <!-- Connected Repo Link Card -->
+      <div id="headerRepoContainer" class="repo-banner-card hidden">
+        <div class="repo-banner-left">
+          <svg class="repo-banner-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 110-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1h-8a1 1 0 00-1 1v6.708A2.486 2.486 0 014.5 9h8V1.5z"></path>
+          </svg>
+          <a id="headerRepoLink" href="#" target="_blank" rel="noopener noreferrer" class="repo-link">
+            username/repo
+          </a>
+        </div>
+        <span class="repo-branch-pill">main</span>
+      </div>
+
+      <hr class="header-divider">
+    </header>
+
+    <!-- Error / Status Alert Area -->
+    <div id="alertBanner" class="alert-banner hidden">
+      <span id="alertMessage"></span>
+      <button id="alertCloseBtn" class="alert-close">&times;</button>
+    </div>
+
+    <!-- VIEW 1: Authentication View -->
+    <section id="authView" class="view-section">
+      <div class="auth-card">
+        <div class="auth-icon-circle">
+          <svg width="24" height="24" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+          </svg>
+        </div>
+        <h2 class="auth-title">Connect with GitHub</h2>
+        <p class="auth-desc">Authenticate your account to sync solved problems directly to your GitHub repository.</p>
+        <p class="auth-desc">GitHub authorization requests the <code>repo</code> scope for private-repository support. This is broad access—review the authorization screen carefully and consider connecting an account dedicated to solution syncing.</p>
+
+        <!-- Dark OAuth Button -->
+        <button id="oauthLoginBtn" class="btn-github-auth">
+          <svg height="16" width="16" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+          </svg>
+          <span>Authenticate with GitHub</span>
+        </button>
+
+
+        <!-- Device Flow code panel (shown while waiting for GitHub approval) -->
+        <div id="deviceBox" class="device-box hidden">
+          <p class="device-step">1. Copy this code</p>
+          <div id="deviceCode" class="device-code" aria-live="polite">----</div>
+          <button id="deviceOpenBtn" class="btn-emerald">
+            <span>Copy code &amp; open GitHub</span>
+            <span>↗</span>
+          </button>
+          <p class="device-step">2. Paste it on GitHub and click <strong>Authorize</strong></p>
+          <p id="deviceStatus" class="device-status">Waiting for approval on GitHub…</p>
+          <button id="deviceCancelBtn" class="btn-control btn-control-subtle">Cancel</button>
+        </div>
+
+        <div class="auth-divider-wrap">
+          <span class="auth-divider-line"></span>
+          <span class="auth-divider-text">or quick token</span>
+          <span class="auth-divider-line"></span>
+        </div>
+
+        <!-- PAT Section -->
+        <div class="pat-accordion">
+          <button id="togglePatBtn" class="pat-toggle-btn">
+            <span>🔑 Connect Personal Access Token (PAT)</span>
+            <span>▾</span>
+          </button>
+          
+          <div id="patForm" class="pat-box hidden">
+            <input type="password" id="patInput" class="input-field" placeholder="github_pat_... (fine-grained token)" autocomplete="new-password" autocapitalize="off" spellcheck="false">
+            <button id="patSubmitBtn" class="btn-emerald">
+              <span>Connect Token</span>
+              <span>→</span>
+            </button>
+            <p class="pat-hint">
+              PATs may grant broad repository access. Use a dedicated token with the minimum permissions, never paste a token you use elsewhere, and disconnect when finished.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 2: Repository Selection View -->
+    <section id="repoView" class="view-section hidden">
+      <div class="repo-card">
+        <div class="repo-header">
+          <h2 class="repo-title">Setup Repository</h2>
+          <p class="user-greeting">Connected as <strong id="repoUsername">@user</strong></p>
+        </div>
+
+        <div class="option-card">
+          <label class="radio-row">
+            <input type="radio" name="repoMode" value="create" checked id="radioRepoCreate">
+            <span>Create a new repository</span>
+          </label>
+          <div id="createRepoFields" class="subfield-wrap">
+            <input type="text" id="newRepoName" class="input-field" value="DSA-Tracker-Solutions" placeholder="Repository name">
+            <div class="privacy-chips">
+              <label><input type="radio" name="repoPrivacy" value="public" checked> Public</label>
+              <label><input type="radio" name="repoPrivacy" value="private"> Private</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="option-card">
+          <label class="radio-row">
+            <input type="radio" name="repoMode" value="existing" id="radioRepoExisting">
+            <span>Link an existing repository</span>
+          </label>
+          <div id="existingRepoFields" class="subfield-wrap hidden">
+            <select id="existingRepoSelect" class="select-dropdown">
+              <option value="">Loading repositories...</option>
+            </select>
+          </div>
+        </div>
+
+        <button id="saveRepoBtn" class="btn-emerald">Save and Get Started</button>
+        <button id="cancelRepoBtn" class="btn-ghost">Disconnect Account</button>
+      </div>
+    </section>
+
+    <!-- VIEW 3: Dashboard View -->
+    <section id="dashboardView" class="view-section hidden">
+      <div class="dashboard-wrap">
+        <!-- Hero Total Solved Card -->
+        <div class="hero-stat-card">
+          <span class="stat-label">DSA Problems Solved</span>
+          <div class="stat-count-main" id="totalSolvedCount">0</div>
+          <div class="stat-last" id="lastSolvedText">No solutions synced yet</div>
+        </div>
+
+        <!-- Difficulty Metrics Grid -->
+        <div class="diff-grid">
+          <div class="diff-card card-easy">
+            <span class="diff-card-num" id="easyCount">0</span>
+            <span class="diff-card-name">Easy</span>
+          </div>
+          <div class="diff-card card-medium">
+            <span class="diff-card-num" id="mediumCount">0</span>
+            <span class="diff-card-name">Medium</span>
+          </div>
+          <div class="diff-card card-hard">
+            <span class="diff-card-num" id="hardCount">0</span>
+            <span class="diff-card-name">Hard</span>
+          </div>
+        </div>
+
+        <!-- Connected Platforms: auto-tracking toggle per site -->
+        <div class="platforms-card">
+          <div class="platforms-card-title">Platforms <span class="platforms-card-hint">(autosave to GitHub)</span></div>
+
+          <div class="platform-row">
+            <div class="platform-row-left">
+              <span class="platform-dot platform-dot-gfg"></span>
+              <span class="platform-name">GeeksforGeeks</span>
+              <span class="platform-count" id="gfgPlatformCount">0 solved</span>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="togglePlatformGfg" checked>
+              <span class="switch-slider"></span>
+            </label>
+          </div>
+
+          <div class="platform-row">
+            <div class="platform-row-left">
+              <span class="platform-dot platform-dot-leetcode"></span>
+              <span class="platform-name">LeetCode</span>
+              <span class="platform-count" id="leetcodePlatformCount">0 solved</span>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="togglePlatformLeetcode" checked>
+              <span class="switch-slider"></span>
+            </label>
+          </div>
+
+          <div class="platform-row">
+            <div class="platform-row-left">
+              <span class="platform-dot platform-dot-hackerrank"></span>
+              <span class="platform-name">HackerRank</span>
+              <span class="platform-count" id="hackerrankPlatformCount">0 solved</span>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="togglePlatformHackerrank" checked>
+              <span class="switch-slider"></span>
+            </label>
+          </div>
+
+          <p class="platforms-card-footnote">Turning a platform off pauses automatic sync there. The ⚡ Save to GitHub button on the page still works manually.</p>
+        </div>
+
+        <!-- Autosave Setting -->
+        <div class="autosave-row">
+          <div class="platform-row-left">
+            <span class="platform-name">🔄 Autosave on Accept</span>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="toggleAutosave" checked>
+            <span class="switch-slider"></span>
+          </label>
+        </div>
+
+        <!-- Controls Action Bar -->
+        <div class="controls-grid">
+          <button id="syncNowBtn" class="btn-control btn-control-sync" title="Sync pending items now">
+            <span>⚡ Sync Now</span>
+          </button>
+          <button id="changeRepoBtn" class="btn-control btn-control-subtle" title="Switch connected repository">
+            <span>📁 Repo</span>
+          </button>
+          <button id="disconnectBtn" class="btn-control btn-control-subtle" title="Disconnect GitHub">
+            <span>🚪 Exit</span>
+          </button>
+        </div>
+
+        <!-- Live Sync Status Card -->
+        <div class="status-card">
+          <div class="status-indicator-wrap">
+            <span class="pulse-dot" id="syncStatusDot"></span>
+            <span id="syncStatusText">Status: Synced ✓</span>
+          </div>
+          <button id="resetStatsBtn" class="reset-link-btn" title="Reset all statistics">Reset Stats</button>
+        </div>
+
+        <!-- Feature Request Banner -->
+        <div class="feature-strip">
+          <span>Need more features? </span>
+          <a href="https://github.com/anunaysrivastava04-coder" target="_blank" rel="noopener noreferrer" id="requestFeatureLink">Request a feature →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer Social Row -->
+    <footer class="popup-footer">
+      <div class="creator-footer-note">Created by <strong>Anunay Srivastava</strong></div>
+      <div class="social-circle-row">
+        <!-- GitHub -->
+        <a id="footerGithub" href="https://github.com/anunaysrivastava04-coder" target="_blank" rel="noopener noreferrer" class="social-circle-btn btn-github" title="GitHub - @anunaysrivastava04-coder">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+          </svg>
+        </a>
+
+        <!-- LinkedIn -->
+        <a id="footerLinkedin" href="https://www.linkedin.com/in/anunay-srivastava-2638a1362/" target="_blank" rel="noopener noreferrer" class="social-circle-btn btn-linkedin" title="LinkedIn - Anunay Srivastava">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+          </svg>
+        </a>
+
+        <!-- Instagram -->
+        <a id="footerInstagram" href="https://www.instagram.com/anunay_srivastava108" target="_blank" rel="noopener noreferrer" class="social-circle-btn btn-instagram" title="Instagram - @anunay_srivastava108">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+          </svg>
+        </a>
+
+        <!-- GeeksforGeeks Globe -->
+        <a id="footerWebsite" href="https://geeksforgeeks.org" target="_blank" rel="noopener noreferrer" class="social-circle-btn btn-globe" title="GeeksforGeeks Practice">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm1 2c3.138.563 5.753 2.502 6.829 5.309-1.631-.832-3.754-1.309-6.829-1.309v-4zm-2 0v4c-3.075 0-5.198.477-6.829 1.309 1.076-2.807 3.691-4.746 6.829-5.309zm-7.669 8.219c-.212.879-.331 1.791-.331 2.781 0 1.006.122 1.934.341 2.827 1.834-.694 4.38-1.127 7.659-1.127v-3.4c-3.262 0-5.815-.407-7.669-1.081zm9.669 4.481v3.4c3.279 0 5.825.433 7.659 1.127.219-.893.341-1.821.341-2.827 0-.99-.119-1.902-.331-2.781-1.854.674-4.407 1.081-7.669 1.081zm0-5.4v-3.328c3.262 0 5.815.407 7.669 1.081.212.879.331 1.791.331 2.781 0 1.006-.122 1.934-.341 2.827-1.834-.694-4.38-1.127-7.659-1.127zm-2 0c-3.279 0-5.825-.433-7.659-1.127-.219.893-.341 1.821-.341 2.827 0 .99.119 1.902.331 2.781 1.854-.674 4.407-1.081 7.669-1.081v-3.4zm0 5.4v3.4c-3.262 0-5.815-.407-7.669-1.081-.212-.879-.331-1.791-.331-2.781 0-1.006.122-1.934.341-2.827 1.834.694 4.38 1.127 7.659 1.127zm2 2v4c3.138-.563 5.753-2.502 6.829-5.309-1.631.832-3.754 1.309-6.829 1.309zm-2 0c-3.075 0-5.198-.477-6.829-1.309-1.076 2.807-3.691 4.746-6.829 5.309v-4z"/>
+          </svg>
+        </a>
+      </div>
+    </footer>
+
+    <!-- Confirmation Modal for Reset Stats -->
+    <div id="confirmModal" class="modal-overlay hidden">
+      <div class="modal-card">
+        <h3 class="modal-title">Reset Solved Statistics?</h3>
+        <p class="modal-body">This will reset your solved problem counts and local solve history. Existing files on GitHub will remain untouched.</p>
+        <div class="modal-actions">
+          <button id="cancelResetBtn" class="btn-control btn-control-subtle">Cancel</button>
+          <button id="confirmResetBtn" class="btn-danger">Confirm Reset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="storage.js"></script>
+  <script src="github.js"></script>
+  <script src="problemParser.js"></script>
+  <script src="oauth-config.js"></script>
+  <script src="auth.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

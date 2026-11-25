@@ -1,0 +1,31 @@
+# Secrets and local credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+secrets.json
+token.txt
+tokens.txt
+
+# Local/dev files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Logs and temporary output
+*.log
+npm-debug.log*
+coverage/
+release-output/
+
+dist/
+*.secret
+*.credentials
+
+# Local OAuth configuration (never commit)
+oauth-config.js

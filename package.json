@@ -1,0 +1,11 @@
+{
+  "name": "dsa-tracker",
+  "version": "2.1.1",
+  "description": "DSA Tracker - Automatically sync GeeksforGeeks, LeetCode and HackerRank solutions to GitHub. Created by Anunay Srivastava.",
+  "main": "background.js",
+  "scripts": {
+    "test": "node tests/run-tests.js"
+  },
+  "author": "Anunay Srivastava (https://github.com/anunaysrivastava04-coder)",
+  "license": "MIT"
+}
